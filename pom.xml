@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2020-2022 Fraunhofer Institute for Software and Systems Engineering
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.fhg.isst.oe270.degree</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.8.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${language.name}</name>
+	<description>The data app programming language, which is a work result of the PhD of Fabian Bruckner.</description>
+	<inceptionYear>2020-2022</inceptionYear>
+	<organization>
+		<name>Fraunhofer Institute for Software and Systems Engineering</name>
+		<url>https://www.isst.fraunhofer.de/</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>${license_name}</name>
+			<url>${license_url}</url>
+			<distribution>${license_distribution}</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Fabian Bruckner</name>
+			<email>fabian.bruckner@isst.fraunhofer.de</email>
+			<organization>Fraunhofer Institute for Software and Systems Engineering</organization>
+			<organizationUrl>https://www.isst.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>lead</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/FraunhoferISST/data-app-language/issues</url>
+	</issueManagement>
+
+    <modules>
+        <module>de.fhg.isst.oe270.degree.common</module>
+        <module>de.fhg.isst.oe270.degree.grammar</module>
+        <module>de.fhg.isst.oe270.degree.compiler</module>
+        <module>de.fhg.isst.oe270.degree.registry</module>
+        <module>de.fhg.isst.oe270.degree.core.registry</module>
+        <module>de.fhg.isst.oe270.degree.core.definitions</module>
+        <module>de.fhg.isst.oe270.degree.jacoco</module>
+        <module>de.fhg.isst.oe270.degree.runtime.java</module>
+        <module>de.fhg.isst.oe270.degree.remote.processing</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <language.name>D°</language.name>
+        <nukleus.version>5.1</nukleus.version>
+
+        <apache.commons.lang.version>2.6</apache.commons.lang.version>
+        <apache.commons.lang3.version>3.9</apache.commons.lang3.version>
+        <apache.commons.io.version>2.6</apache.commons.io.version>
+        <apache.commons.text.version>1.2</apache.commons.text.version>
+        <apache.commons.cli.version>1.4</apache.commons.cli.version>
+        <apache.velocity.version>1.7</apache.velocity.version>
+        <commons.beansutil.version>1.9.3</commons.beansutil.version>
+        <gson.version>2.8.2</gson.version>
+        <junit.version>4.12</junit.version>
+        <junit.jupiter.version>5.4.2</junit.jupiter.version>
+        <aspectj.version>1.8.13</aspectj.version>
+        <log4j2.version>2.13.3</log4j2.version>
+        <kotlin.version>1.3.72</kotlin.version>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <rrd-antlr4.version>0.0.1</rrd-antlr4.version>
+        <fast-classpath-scanner.version>3.1.10</fast-classpath-scanner.version>
+        <class-graph.version>4.8.87</class-graph.version>
+        <lombok.version>1.18.22</lombok.version>
+        <jenesis4java.version>2.19</jenesis4java.version>
+        <maveninvoker.version>3.0.1</maveninvoker.version>
+        <spring.boot.version>2.3.5.RELEASE</spring.boot.version>
+        <maven.assembly.plugin.version>3.2.0</maven.assembly.plugin.version>
+        <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <plexus.utils.version>3.1.0</plexus.utils.version>
+        <xstream.version>1.4.11.1</xstream.version>
+        <jjwt.version>0.10.5</jjwt.version>
+        <klaxon.version>5.0.5</klaxon.version>
+        <docker-java.version>3.2.0-rc1</docker-java.version>
+        <jgit.version>5.5.1.201910021850-r</jgit.version>
+        <jackson.version>2.12.1</jackson.version>
+        <antlr4.version>4.7.1</antlr4.version>
+        <antlr4.visitor>true</antlr4.visitor>
+        <antlr4.listener>true</antlr4.listener>
+
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <jacoco.version>0.8.5</jacoco.version>
+        <jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
+        <checkstyle-plugin.version>3.1.2</checkstyle-plugin.version>
+        <checkstyle.version>9.2</checkstyle.version>
+        <dms.version>2.2.0</dms.version>
+
+		<!-- License -->
+		<license-plugin.version>4.1</license-plugin.version>
+		<license_name>Apache License, Version 2.0</license_name>
+		<license_url>https://www.apache.org/licenses/LICENSE-2.0.txt</license_url>
+		<license_distribution>repo</license_distribution>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Common language artifacts -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Registry definitions for various subsystems -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- The compiler -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.compiler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- definitions for core elements -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.core.definitions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- The core elements for the language -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.core.registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- The grammar definitions for the language -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.grammar</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Java Runtime for the language -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.runtime.java</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Only needed for test coverage reports -->
+            <dependency>
+                <groupId>de.fhg.isst.oe270.degree</groupId>
+                <artifactId>de.fhg.isst.oe270.degree.jacoco</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Type System NUKLEUS -->
+            <dependency>
+                <groupId>de.fraunhofer.isst.nukleus</groupId>
+                <artifactId>nukleus-core</artifactId>
+                <version>${nukleus.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.commons.lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${apache.commons.io.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${apache.commons.cli.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${apache.velocity.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java -->
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java</artifactId>
+                <version>${docker-java.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.antlr/antlr4-runtime -->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${antlr4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>${class-graph.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/net.sourceforge.jenesis4java/jenesis4java -->
+            <dependency>
+                <groupId>net.sourceforge.jenesis4java</groupId>
+                <artifactId>jenesis4java</artifactId>
+                <version>${jenesis4java.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.shared/maven-invoker -->
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-invoker</artifactId>
+                <version>${maveninvoker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus.utils.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+
+            <!-- JWT dependencies -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+            <!-- Java git client -->
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit</artifactId>
+                <version>${jgit.version}</version>
+            </dependency>
+
+            <!-- Klaxon is a library to parse JSON in Kotlin -->
+            <dependency>
+                <groupId>com.beust</groupId>
+                <artifactId>klaxon</artifactId>
+                <version>${klaxon.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>1.5.3</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>ids-lab-public</id>
+            <name>Maven repository at IDS-LAB</name>
+            <url>https://mvn.ids.isst.fraunhofer.de/nexus/repository/ids-public</url>
+        </repository>
+
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+
+        <repository>
+            <!-- Repository for NUKLEUS Type System -->
+            <id>oe270</id>
+            <url>https://mvn.ids.isst.fraunhofer.de/nexus/repository/oe270/</url>
+        </repository>
+
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ids-lab-public</id>
+            <name>Maven repository at IDS-LAB</name>
+            <url>https://mvn.ids.isst.fraunhofer.de/nexus/repository/ids-public</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-plugin.version}</version>
+                <configuration>
+					<mapping>
+						<kt>JAVADOC_STYLE</kt>
+					</mapping>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>scripts/ci/license/header.txt</header>
+                            <excludes>
+                                <exclude>**/README</exclude>
+                                <exclude>**/src/test/resources/**</exclude>
+                                <exclude>**/src/main/resources/**</exclude>
+                                <exclude>**/scripts/**</exclude>
+                            </excludes>
+                        </licenseSet>
+                    </licenseSets>
+                    <properties>
+                        <year>${project.inceptionYear}</year>
+                    </properties>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <!-- Jacoco prepare-agent builds some command-line params without -->
+                    <!-- which jacoco will not instrument. Hence it is important to add -->
+                    <!-- those command-line params here (${argLine} holds those params) -->
+                    <argLine>${argLine} -Xms256m -Xmx2048m</argLine>
+                    <forkCount>1</forkCount>
+                    <runOrder>random</runOrder>
+					<systemPropertyVariables>
+						<propertyName>license_type</propertyName>
+						<propertyName>license_url</propertyName>
+						<propertyName>license_distribution</propertyName>
+						<buildDirectory>${project.build.directory}</buildDirectory>
+					</systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>de.fhg.isst.oe270.degree</groupId>
+                            <artifactId>build-tools</artifactId>
+                            <version>1.8.1-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>scripts/checkstyle.xml</configLocation>
+                        <encoding>UTF-8</encoding>
+                        <consoleOutput>true</consoleOutput>
+                        <failOnViolation>true</failOnViolation>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <version>1.11</version>
+                    <configuration>
+                        <complianceLevel>1.8</complianceLevel>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <showWeaveInfo>true</showWeaveInfo>
+                        <verbose>true</verbose>
+                        <Xlint>ignore</Xlint>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <!-- use this goal to weave all your main classes -->
+                                <goal>compile</goal>
+                                <!-- use this goal to weave all your test classes -->
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-maven-plugin</artifactId>
+                    <version>${antlr4.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>antlr4</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>de.flashpixx</groupId>
+                    <artifactId>rrd-antlr4</artifactId>
+                    <version>${rrd-antlr4.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.assembly.plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <debug>true</debug>
+                        <debuglevel>lines,vars,source</debuglevel>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.plugin.version}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>com.github.sevntu-checkstyle</groupId>
+                <artifactId>dsm-maven-plugin</artifactId>
+                <version>${dms.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <distributionManagement>
+        <repository>
+            <id>oe270</id>
+            <name>Fraunhofer ISST - OE270 internal repository</name>
+            <url>https://mvn.ids.isst.fraunhofer.de/nexus/repository/oe270</url>
+        </repository>
+    </distributionManagement>
+
+</project>

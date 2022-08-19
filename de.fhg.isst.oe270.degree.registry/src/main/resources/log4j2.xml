@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Appenders>
+        <File name="FILE" fileName="context/trace.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n"/>
+        </File>
+        <Console name="CONSOLE">
+            <PatternLayout pattern="%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="tracer" level="INFO">
+            <AppenderRef ref="FILE"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</Configuration>

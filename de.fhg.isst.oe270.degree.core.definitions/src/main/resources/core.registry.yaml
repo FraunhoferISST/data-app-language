@@ -1,0 +1,683 @@
+---
+# ---------------
+# degree.Activity
+# ---------------
+PrintToConsole:
+  degree.Activity@PrintToConsole:
+    name:
+      Identifier: "PrintToConsole"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "text"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+    tags:
+      degree.ActivityTag:
+        - "STATELESS"
+LogToConsole:
+  degree.Activity@LogToConsole:
+    name:
+      Identifier: "LogToConsole"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "text"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+    tags:
+      degree.ActivityTag:
+        - "STATELESS"
+WriteFile:
+  degree.Activity@WriteFile:
+    name:
+      Identifier: "WriteFile"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "filePath"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "content"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+ReadFile:
+  degree.Activity@ReadFile:
+    name:
+      Identifier: "ReadFile"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "filePath"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    outputParameters:
+      degree.Parameter:
+        - name:
+            Identifier: "content"
+          type:
+            Type: "Text"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+ExecCmd:
+  degree.Activity@ExecCmd:
+    name:
+      Identifier: "ExecCmd"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "cmd"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "args"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    outputParameters:
+      degree.Parameter:
+        - name:
+            Identifier: "returnValue"
+          type:
+            Type: "Text"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+Ping:
+  degree.Activity@Ping:
+    name:
+      Identifier: "Ping"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "args"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    outputParameters:
+      degree.Parameter:
+        - name:
+            Identifier: "returnValue"
+          type:
+            Type: "Text"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+    codeBlock:
+      Text: "begin\n\
+      \    echoMsg = $Text(@write[\"Received following arguments:\"]);\n\
+      \    PrintToConsole[echoMsg];\n\
+      \    PrintToConsole[args];\n\
+      \n\
+      \    pingCmd = $Text(@write[\"ping\"]);\n\
+      \n\
+      \    [returnValue] = UnconstrainedExecCmdActivity[pingCmd,args];\n\
+      \n\
+      \    echoMsg = $Text(@write[\"Result of execution:\"]);\n\
+      \    PrintToConsole[echoMsg];\n\
+      \    PrintToConsole[returnValue];\n\
+      \n\
+      \    return [returnValue];\n\
+      end"
+PerformHttpRequest:
+  degree.Activity@PerformHttpRequest:
+    name:
+      Identifier: "PerformHttpRequest"
+    inputParameters:
+      degree.TaggedParameter:
+        - name:
+            Identifier: "proxyHost"
+          type:
+            Type: "Hostname"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "proxyPort"
+          type:
+            Type: "ServerPort"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "url"
+          type:
+            Type: "URL"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "httpMethod"
+          type:
+            Type: "HttpMethod"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "contentType"
+          type:
+            Type: "HttpContentType"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "acceptedTypes"
+          type:
+            Type: "HttpContentType"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+        - name:
+            Identifier: "body"
+          type:
+            Type: "Text"
+          tags:
+            degree.ActivityInputTag:
+              - "READ"
+    outputParameters:
+      degree.Parameter:
+        - name:
+            Identifier: "response"
+          type:
+            Type: "Text"
+    executionContainer:
+      degree.ExecutionContainer: "java"
+# -----------------------
+# degree.ActivityInstance
+# -----------------------
+EchoServicePrintToConsole:
+  degree.ActivityInstance:
+    name:
+      Identifier: "EchoServicePrintToConsole"
+    definition:
+      degree.ActivityReference: "degree.Activity@PrintToConsole"
+    policies:
+      degree.MappedPolicyInstanceMap:
+        - key:
+            Text: "maxLength"
+          value:
+            degree.ConstraintOrPolicyInstanceReference: "degree.ConstraintInstance@MaxLength1024"
+        #- key:
+        #    Text: "allowTimeInterval"
+        #  value:
+        #    degree.ConstraintOrPolicyInstanceReference: "degree.PolicyInstance@AllowedTimeInterval2010to2025"
+    parameterMappings:
+      degree.ParameterMappingsMap:
+        - key:
+            Text: "text"
+          value:
+            Text:
+              - "maxLength.content"
+# -----------------
+# degree.Constraint
+# -----------------
+MaxLength:
+  degree.Constraint@MaxLength:
+    name:
+      Identifier: "MaxLength"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "maxLength"
+          type:
+            Type: "UnsignedInt"
+        - name:
+            Identifier: "content"
+          type:
+            Type: "Text"
+UseNotBeforeTimeStamp:
+  degree.Constraint@UseNotBeforeTimeStamp:
+    name:
+      Identifier: "UseNotBeforeTimeStamp"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "timestamp"
+          type:
+            Type: "LocalDateTime"
+UseNotAfterTimeStamp:
+  degree.Constraint@UseNotAfterTimeStamp:
+    name:
+      Identifier: "UseNotAfterTimeStamp"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "timestamp"
+          type:
+            Type: "LocalDateTime"
+RequireTag:
+  degree.Constraint@RequireTag:
+    name:
+      Identifier: "RequireTag"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "tag"
+          type:
+            Type: "Tag"
+DenyTag:
+  degree.Constraint@DenyTag:
+    name:
+      Identifier: "DenyTag"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "tag"
+          type:
+            Type: "Tag"
+RequireUsername:
+  degree.Constraint@RequireUsername:
+    name:
+      Identifier: "RequireUsername"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+RequireUsernameOS:
+  degree.Constraint@RequireUsernameOS:
+    name:
+      Identifier: "RequireUsernameOS"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+RequireUsernameJwt:
+  degree.Constraint@RequireUsernameJwt:
+    name:
+      Identifier: "RequireUsernameJwt"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+DenyUsername:
+  degree.Constraint@DenyUsername:
+    name:
+      Identifier: "DenyUsername"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+DenyUsernameOS:
+  degree.Constraint@DenyUsernameOS:
+    name:
+      Identifier: "DenyUsernameOS"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+DenyUsernameJwt:
+  degree.Constraint@DenyUsernameJwt:
+    name:
+      Identifier: "DenyUsernameJwt"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "username"
+          type:
+            Type: "Username"
+RequireRole:
+  degree.Constraint@RequireRole:
+    name:
+      Identifier: "RequireRole"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "Userrole"
+DenyRole:
+  degree.Constraint@DenyRole:
+    name:
+      Identifier: "DenyRole"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "Userrole"
+RequireRoleOS:
+  degree.Constraint@RequireRoleOS:
+    name:
+      Identifier: "RequireRoleOS"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "Userrole"
+DenyRoleOS:
+  degree.Constraint@DenyRoleOS:
+    name:
+      Identifier: "DenyRoleOS"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "Userrole"
+RequireRoleJwt:
+  degree.Constraint@RequireRoleJwt:
+    name:
+      Identifier: "RequireRoleJwt"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "Userrole"
+DenyRoleJwt:
+  degree.Constraint@RequireRoleJwt:
+    name:
+      Identifier: "DenyRoleJwt"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "role"
+          type:
+            Type: "UserroleJwt"
+UseWhitelist:
+  degree.Constraint@UseWhitelist:
+    name:
+      Identifier: "UseWhitelist"
+GrantAll:
+  degree.Constraint@GrantAll:
+    name:
+      Identifier: "GrantAll"
+AllowReadFile:
+  degree.Constraint@AllowReadFile:
+    name:
+      Identifier: "AllowReadFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+ForbidReadFile:
+  degree.Constraint@ForbidReadFile:
+    name:
+      Identifier: "ForbidReadFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+AllowWriteFile:
+  degree.Constraint@AllowWriteFile:
+    name:
+      Identifier: "AllowWriteFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+ForbidWriteFile:
+  degree.Constraint@ForbidWriteFile:
+    name:
+      Identifier: "ForbidWriteFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+AllowDeleteFile:
+  degree.Constraint@AllowDeleteFile:
+    name:
+      Identifier: "AllowDeleteFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+ForbidDeleteFile:
+  degree.Constraint@ForbidDeleteFile:
+    name:
+      Identifier: "ForbidDeleteFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+QuotaReadFile:
+  degree.Constraint@QuotaReadFile:
+    name:
+      Identifier: "QuotaReadFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "quota"
+          type:
+            Type: "UnsignedInt"
+        - name:
+            Identifier: "unit"
+          type:
+            Type: "ByteUnit"
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+QuotaWriteFile:
+  degree.Constraint@QuotaWriteFile:
+    name:
+      Identifier: "QuotaWriteFile"
+    attribute:
+      degree.Parameter:
+        - name:
+            Identifier: "quota"
+          type:
+            Type: "UnsignedInt"
+        - name:
+            Identifier: "unit"
+          type:
+            Type: "ByteUnit"
+        - name:
+            Identifier: "path"
+          type:
+            Type: "Path"
+        - name:
+            Identifier: "matchingStrategy"
+          type:
+            Type: "PathMatchingStrategy"
+# -----------------
+# degree.ConstraintInstance
+# -----------------
+Test:
+  degree.ConstraintInstance@QuotaReadFile:
+    name:
+      Identifier: "QuotaReadFile123"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@QuotaReadFile"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "quota"
+          value:
+            Json: "{\"core.UnsignedInt\":\"300\"}"
+        - key:
+            Text: "unit"
+          value:
+            Json: "{\"core.ByteUnit\":\"B\"}"
+        - key:
+            Text: "path"
+          value:
+            Json: "{\"core.Path\":\"C:/asus.log\"}"
+        - key:
+            Text: "matchingStrategy"
+          value:
+            Json: "{\"core.PathMatchingStrategy\":\"EXACT\"}"
+MaxLength1024:
+  degree.ConstraintInstance@MaxLength1024:
+    name:
+      Identifier: "MaxLength1024"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@MaxLength"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "maxLength"
+          value:
+            Json: "{\"core.UnsignedInt\":\"1024\"}"
+UseNotAfterTimeStamp2025:
+  degree.ConstraintInstance@UseNotAfterTimeStamp2025:
+    name:
+      Identifier: "UseNotAfterTimeStamp2025"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@UseNotAfterTimeStamp"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "timestamp"
+          value:
+            Json: "{\"LocalDateTime\":{\"day\":{\"UnsignedInt\":\"1\"},\"month\":{\"UnsignedInt\":\"1\"},\"year\":{\"UnsignedInt\":\"2025\"},\"Hour\":{\"UnsignedInt\":\"0\"},\"Minute\":{\"UnsignedInt\":\"0\"},\"Second\":{\"UnsignedInt\":\"0\"}}}"
+UseNotBeforeTimeStamp2010:
+  degree.ConstraintInstance@UseNotBeforeTimeStamp2010:
+    name:
+      Identifier: "UseNotBeforeTimeStamp2010"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@UseNotBeforeTimeStamp"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "timestamp"
+          value:
+            Json: "{\"LocalDateTime\":{\"day\":{\"UnsignedInt\":\"1\"},\"month\":{\"UnsignedInt\":\"1\"},\"year\":{\"UnsignedInt\":\"2010\"},\"Hour\":{\"UnsignedInt\":\"0\"},\"Minute\":{\"UnsignedInt\":\"0\"},\"Second\":{\"UnsignedInt\":\"0\"}}}"
+DenyTagDebug:
+  degree.ConstraintInstance@DenyTagDebug:
+    name:
+      Identifier: "DenyTagDebug"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@DenyTag"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "tag"
+          value:
+            Json: "{\"core.Tag\":\"DEBUG\"}"
+RequireTagDebug:
+  degree.ConstraintInstance@RequireTagDebug:
+    name:
+      Identifier: "RequireTagDebug"
+    definition:
+      degree.ConstraintReference: "degree.Constraint@RequireTag"
+    mappedElements:
+      degree.InstanceMap:
+        - key:
+            Text: "tag"
+          value:
+            Json: "{\"core.Tag\":\"DEBUG\"}"
+# -------------
+# degree.Policy
+# -------------
+AllowedTimeInterval:
+  degree.Policy@AllowedTimeInterval:
+    dependencies:
+      degree.DependencyMap:
+        - key:
+            Text: "useNotBefore"
+          value:
+            degree.ConstraintOrPolicyReference: "degree.Constraint@UseNotBeforeTimeStamp"
+        - key:
+            Text: "useNotAfter"
+          value:
+            degree.ConstraintOrPolicyReference: "degree.Constraint@UseNotAfterTimeStamp"
+AllowReadOnlyFile:
+  degree.Policy@AllowReadOnlyFile:
+    dependencies:
+      degree.DependencyMap:
+        - key:
+            Text: "allowRead"
+          value:
+            degree.ConstraintOrPolicyReference: "degree.Constraint@AllowReadFile"
+        - key:
+            Text: "forbidWrite"
+          value:
+            degree.ConstraintOrPolicyReference: "degree.Constraint@ForbidWriteFile"
+# -------------
+# degree.PolicyInstance
+# -------------
+AllowedTimeInterval2010to2025:
+  degree.PolicyInstance@AllowedTimeInterval2010to2025:
+    name:
+      Identifier: "AllowedTimeInterval2010to2025"
+    definition:
+      degree.PolicyReference: "degree.Policy@AllowedTimeInterval"
+    mappedElements:
+      degree.MappedPolicyInstanceMap:
+        - key:
+            Text: "useNotBefore"
+          value:
+            degree.ConstraintOrPolicyInstanceReference: "degree.ConstraintInstance@UseNotBeforeTimeStamp2010"
+        - key:
+            Text: "useNotAfter"
+          value:
+            degree.ConstraintOrPolicyInstanceReference: "degree.ConstraintInstance@UseNotAfterTimeStamp2025"

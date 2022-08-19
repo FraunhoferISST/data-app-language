@@ -1,0 +1,12 @@
+#if($systemPath)
+            <!-- This is a D°-extension -->
+#end
+            <dependency>
+                <groupId>$groupId</groupId>
+                <artifactId>$artifactId</artifactId>
+                <version>$version</version>
+                <scope>$scope</scope>
+#if($systemPath)
+                <systemPath>$systemPath</systemPath>
+#end
+            </dependency>

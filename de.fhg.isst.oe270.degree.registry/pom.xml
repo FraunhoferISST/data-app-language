@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2020-2022 Fraunhofer Institute for Software and Systems Engineering
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>de.fhg.isst.oe270.degree</groupId>
+        <version>1.8.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>de.fhg.isst.oe270.degree.registry</artifactId>
+
+    <name>${language.name} Registry Classes</name>
+    <description>
+        The different ${language.name}-subsystems use registries to manage definitions and instances of elements.
+        This module contains these registries.
+
+        In addition the required Nukleus dependencies are stored in this module.
+        The definition of Nukleus-types which are used in the ${language.name}-compiler and compiled applications
+        is part of this module. The code generated from these definitions can be found here, too.
+    </description>
+
+    <dependencies>
+        <!-- D° dependencies  -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.common</artifactId>
+        </dependency>
+
+        <!-- Nukleus TypeSystem -->
+        <dependency>
+            <groupId>de.fraunhofer.isst.nukleus</groupId>
+            <artifactId>nukleus-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Add generated code to source directories -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.basedir}/target/generated-sources/nukleus</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Nukleus code generation -->
+            <plugin>
+                <groupId>de.fraunhofer.isst.nukleus</groupId>
+                <artifactId>nukleus-maven-plugin</artifactId>
+                <version>5.1</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <customization>nukleus.core.custom.DegreeCustomization</customization>
+                            <typeSystem>src/main/resources/degree.types.yaml</typeSystem>
+                            <typeSystemName>DegreeTypeSystem</typeSystemName>
+                            <sourceFolder>target/generated-sources/nukleus</sourceFolder>
+                            <basePackage>de.fhg.isst.degree.types.gen</basePackage>
+                            <identity>nukleus.Identity</identity>
+                            <renderHints>
+                                <degree.ActivityReference.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.Activity
+                                </degree.ActivityReference.linkType>
+                                <degree.ConstraintReference.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.Constraint
+                                </degree.ConstraintReference.linkType>
+                                <degree.PolicyReference.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.Policy
+                                </degree.PolicyReference.linkType>
+                                <degree.PolicyEntityInstance.definition.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.PolicyEntity
+                                </degree.PolicyEntityInstance.definition.linkType>
+                                <degree.ConstraintInstance.definition.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.Constraint
+                                </degree.ConstraintInstance.definition.linkType>
+                                <degree.ActivityInstance.definition.linkType>
+                                    de.fhg.isst.degree.types.gen.degree.Activity
+                                </degree.ActivityInstance.definition.linkType>
+                            </renderHints>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,227 @@
+---
+imports:
+  - "https://nukleus.ids.isst.fraunhofer.de/types/core-5.1.1.yaml"
+primitives:
+  core.Error:
+    initialValue: "An error occurred."
+    wikidoc: "If the execution of a Data App produces an error, it is stored in this data type and returned to the caller."
+  core.ByteUnit:
+    validation: "return Enums.of(new String[]{\"B\",\"kB\",\"MB\",\"GB\",\"TB\",\"PB\",\"EB\",\"KiB\",\"MiB\",\"GiB\",\"TiB\",\"PiB\",\"EiB\"}).contains(context);"
+    positiveTests:
+      - "B"
+      - "MiB"
+    negativeTests:
+      - "kilobyte"
+      - "mebibyte"
+    initialValue: "B"
+    wikidoc: "Byte units including decimal prefixes and binary prefixes (according to IEC) to quantify the size of (e.g.) data."
+  core.Path:
+    validation: "java.nio.file.Paths.get(context.getValue(), new String[]{});"
+    positiveTests:
+      - "C:\\windows"
+      - "/usr/locale/bin"
+    negativeTests:
+      - "path-to-file"
+    wikidoc: "Path to a file."
+  core.PathMatchingStrategy:
+    validation: "return Enums.of(new String[]{\"EXACT\",\"SUBDIR\"}).contains(context);"
+    positiveTests:
+      - "EXACT"
+      - "SUBDIR"
+    negativeTests:
+      - "SUPERDIR"
+    initialValue: "EXACT"
+    wikidoc: "Matching strategy that is used if two (or more) paths are checked for ''equality''."
+  core.Tag:
+    supertypes:
+      - "core.Identifier"
+    initialValue: "_"
+    wikidoc: "The ''Tag'' is used to tag Data Apps. This can be used to add describing keywords to D°-applications. The tags can be used during policy enforcement."
+  core.Username:
+    supertypes:
+      - "core.Identifier"
+    initialValue: "_"
+    wikidoc: "Each execution of a Data App/call to a Data App is performed by a specific user. This data type is used to store this user's name."
+  core.Userrole:
+    supertypes:
+      - "core.Identifier"
+    initialValue: "_"
+    wikidoc: "Each execution of a Data App/call to a Data App is performed by a specific user with specific roles. This data type is used to store this role's name."
+  time.Day:
+    validation: "return Numeric.of(context).between(1,31);"
+    positiveTests:
+      - "3"
+      - "25"
+    negativeTests:
+      - "72"
+      - "-5"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "1"
+    wikidoc: "Representation of a day in a month according to ISO 8601 date format."
+  time.Month:
+    validation: "return Numeric.of(context).between(1,12);"
+    positiveTests:
+      - "3"
+      - "12"
+    negativeTests:
+      - "15"
+      - "0"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "1"
+    wikidoc: "Representation of a month in a year according to ISO 8601 date format."
+  time.Second:
+    validation: "return Numeric.of(context).between(0,59);"
+    positiveTests:
+      - "0"
+      - "34"
+    negativeTests:
+      - "60"
+      - "-5"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "0"
+    wikidoc: "Representation of a second in a minute according to ISO 8601 date format."
+  time.Minute:
+    validation: "return Numeric.of(context).between(0,59);"
+    positiveTests:
+      - "7"
+      - "42"
+    negativeTests:
+      - "62"
+      - "-8"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "0"
+    wikidoc: "Representation of a minute in an hour according to ISO 8601 date format."
+  time.Hour:
+    validation: "return Numeric.of(context).between(0,23);"
+    positiveTests:
+      - "1"
+      - "22"
+    negativeTests:
+      - "24"
+      - "-5"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "0"
+    wikidoc: "Representation of an hour in a day according to ISO 8601 date format."
+  core.HttpMethod:
+    validation: "return Enums.of(new String[]{\"GET\",\"HEAD\",\"POST\",\"PUT\",\"DELETE\",\"CONNECT\",\"OPTIONS\",\"TRACE\",\"PATCH\"}).contains(context);"
+    positiveTests:
+      - "GET"
+      - "POST"
+    negativeTests:
+      - "COPY"
+      - "MOVE"
+    initialValue: "GET"
+    wikidoc: "Allowed HTTP request methods according to RFC 2616 and RFC 5789."
+  core.HttpContentType:
+    validation: "return Regex.of('@',\"^(([-+.@w]+|@*)@/([-+.@w]+|@*))?$\").matches(context);"
+    positiveTests:
+      - "application/json"
+      - "image/svg+xml"
+    negativeTests:
+      - "base64"
+      - "text"
+    initialValue: "*/*"
+    wikidoc: "MIME-type according to IANA. The validation does only check the general structure, not if the specific value is a valid MIME-type."
+  core.Hostname:
+    validation: "java.net.InetAddress.getByName(context.getValue());"
+    wikidoc: "Data type for storing IPv4 addresses (RFC 791), IPv6 addresses (RFC 8200), and resolvable addresses."
+    positiveTests:
+      - "127.0.0.1"
+      - "9d60:ad19:688c:9234:45e6:860e:1809:50ed"
+      - "wikipedia.de"
+    negativeTests:
+      - "google"
+      - "500.142.532.122"
+  core.Port:
+    validation: "return Numeric.of(context).le(65535);"
+    positiveTests:
+      - "80"
+      - "443"
+    negativeTests:
+      - "20190229"
+    supertypes:
+      - "core.UnsignedInt"
+    initialValue: "80"
+    wikidoc: "A valid port according to the TCP standard (RFC 793)."
+composites:
+  time.LocalDate:
+    validation: "LocalDate.of(context);"
+    attributes:
+      day: "time.Day"
+      month: "time.Month"
+      year: "UnsignedInt"
+    initialValues:
+      day: "1"
+      month: "1"
+      year: "1980"
+    positiveTests:
+      - "{\"time.LocalDate\":{\"day\":{\"time.Day\":\"19\"},\"month\":{\"time.Month\":\"6\"},\"year\":{\"core.UnsignedInt\":\"1995\"}}}"
+      - "{\"time.LocalDate\":{\"day\":{\"time.Day\":\"29\"},\"month\":{\"time.Month\":\"2\"},\"year\":{\"core.UnsignedInt\":\"2020\"}}}"
+    negativeTests:
+      - "{\"time.LocalDate\":{\"day\":{\"time.Day\":\"27\"},\"month\":{\"UnsignedInt\":\"2\"},\"year\":{\"core.UnsignedInt\":\"2019\"}}}"
+      - "{\"time.LocalDate\":{\"day\":{\"UnsignedInt\":\"43\"},\"month\":{\"time.Month\":\"5\"},\"year\":{\"core.UnsignedInt\":\"2012\"}}}"
+      - "{\"time.LocalDate\":{\"day\":{\"time.Day\":\"7\"},\"month\":{\"time.Month\":\"13\"},\"year\":{\"core.UnsignedInt\":\"2005\"}}}"
+      - "{\"time.LocalDate\":{\"day\":{\"time.Day\":\"12\"},\"month\":{\"time.Month\":\"7\"},\"year\":{\"core.UnsignedInt\":\"-15\"}}}"
+    wikidoc:
+      '#': "Representation of a date according to ISO 8601 date format."
+      day: "Day of a date."
+      month: "Month of a date."
+      year: "Year of a date."
+  time.LocalTime:
+    attributes:
+      hour: "time.Hour"
+      minute: "time.Minute"
+      second: "time.Second"
+    initialValues:
+      hour: "0"
+      minute: "0"
+      second: "0"
+    positiveTests:
+      - "{\"time.LocalTime\":{\"hour\":{\"time.Hour\":\"13\"},\"minute\":{\"time.Minute\":\"33\"},\"second\":{\"time.Second\":\"37\"}}}"
+    negativeTests:
+      - "{\"time.LocalTime\":{\"hour\":{\"time.Hour\":\"24\"},\"minute\":{\"time.Minute\":\"16\"},\"second\":{\"time.Second\":\"42\"}}}"
+      - "{\"time.LocalTime\":{\"hour\":{\"time.Hour\":\"15\"},\"minute\":{\"time.Minute\":\"67\"},\"second\":{\"time.Second\":\"7\"}}}"
+      - "{\"time.LocalTime\":{\"hour\":{\"time.Hour\":\"9\"},\"minute\":{\"time.Minute\":\"30\"},\"second\":{\"time.Second\":\"-5\"}}}"
+    wikidoc:
+      '#': "Representation of a time without fraction of seconds according to ISO 8601 date format."
+      hour: "Hour of a time."
+      minute: "Minute of a time."
+      second: "Second of a time."
+  time.LocalDateTime:
+    supertypes:
+      - "time.LocalDate"
+      - "time.LocalTime"
+    positiveTests:
+      - "{\"time.LocalDateTime\":{\"day\":{\"time.Day\":\"19\"},\"month\":{\"time.Month\":\"6\"},\"year\":{\"core.UnsignedInt\":\"1995\"},\"hour\":{\"time.Hour\":\"13\"},\"minute\":{\"time.Minute\":\"33\"},\"second\":{\"time.Second\":\"37\"}}}"
+    negativeTests:
+      - "{\"time.LocalDateTime\":{\"day\":{\"time.Day\":\"1\"},\"month\":{\"time.Month\":\"8\"},\"year\":{\"core.UnsignedInt\":\"1925\"},\"hour\":{\"time.Hour\":\"24\"},\"minute\":{\"time.Minute\":\"5\"},\"second\":{\"time.Second\":\"0\"}}}"
+      - "{\"time.LocalDateTime\":{\"day\":{\"time.Day\":\"22\"},\"month\":{\"time.Month\":\"16\"},\"year\":{\"core.UnsignedInt\":\"1972\"},\"hour\":{\"time.Hour\":\"7\"},\"minute\":{\"time.Minute\":\"30\"},\"second\":{\"time.Second\":\"55\"}}}"
+    wikidoc:
+      '#': "Representation of a date and time without fraction of seconds according to ISO 8601 date format. Not timezone aware."
+  time.DateTime:
+    supertypes:
+      - "time.LocalDateTime"
+    attributes:
+      utcOffsetPositive: "core.Boolean"
+      utcOffsetHours: "time.Hour"
+      utcOffsetMinutes: "time.Minute"
+    initialValues:
+      utcOffsetPositive: "true"
+      utcOffsetHours: "0"
+      utcOffsetMinutes: "0"
+    positiveTests:
+      - "{\"time.DateTime\":{\"day\":{\"time.Day\":\"8\"},\"month\":{\"time.Month\":\"3\"},\"year\":{\"core.UnsignedInt\":\"1989\"},\"hour\":{\"time.Hour\":\"6\"},\"minute\":{\"time.Minute\":\"21\"},\"second\":{\"time.Second\":\"49\"},\"utcOffsetPositive\":{\"core.Boolean\":\"true\"},\"utcOffsetHours\":{\"time.Hour\":\"3\"},\"utcOffsetMinutes\":{\"time.Minute\":\"0\"}}}"
+    negativeTests:
+      - "{\"time.DateTime\":{\"day\":{\"time.Day\":\"19\"},\"month\":{\"time.Month\":\"11\"},\"year\":{\"core.UnsignedInt\":\"1328\"},\"hour\":{\"time.Hour\":\"2\"},\"minute\":{\"time.Minute\":\"1\"},\"second\":{\"time.Second\":\"4\"},\"utcOffsetPositive\":{\"core.Boolean\":\"true\"},\"utcOffsetHours\":{\"time.Hour\":\"9\"},\"utcOffsetMinutes\":{\"time.Minute\":\"-30\"}}}"
+      - "{\"time.DateTime\":{\"day\":{\"time.Day\":\"30\"},\"month\":{\"UnsignedInt\":\"9\"},\"year\":{\"core.UnsignedInt\":\"243\"},\"hour\":{\"time.Hour\":\"17\"},\"minute\":{\"time.Minute\":\"28\"},\"second\":{\"time.Second\":\"9\"},\"utcOffsetPositive\":{\"core.Boolean\":\"false\"},\"utcOffsetHours\":{\"time.Hour\":\"27\"},\"utcOffsetMinutes\":{\"time.Minute\":\"15\"}}}"
+      - "{\"time.DateTime\":{\"day\":{\"UnsignedInt\":\"3\"},\"month\":{\"time.Month\":\"2\"},\"year\":{\"core.UnsignedInt\":\"2984\"},\"hour\":{\"time.Hour\":\"22\"},\"minute\":{\"time.Minute\":\"17\"},\"second\":{\"time.Second\":\"26\"},\"utcOffsetPositive\":{\"core.Boolean\":\"+\"},\"utcOffsetHours\":{\"time.Hour\":\"0\"},\"utcOffsetMinutes\":{\"time.Minute\":\"30\"}}}"
+    wikidoc:
+      '#': "Representation of a date and time without fraction of seconds according to ISO 8601 date format. Timezone aware."
+      utcOffsetPositive: "True, if the offset must be added to the date, false otherwise."
+      utcOffsetHours: "Hours of the UTC offset."
+      utcOffsetMinutes: "Minutes of the UTC offset."

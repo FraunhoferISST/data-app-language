@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2020-2022 Fraunhofer Institute for Software and Systems Engineering
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>de.fhg.isst.oe270.degree</groupId>
+        <version>1.8.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>de.fhg.isst.oe270.degree.jacoco</artifactId>
+
+    <name>${language.name} JaCoCo Module</name>
+
+
+    <dependencies>
+        <!-- Common language elements -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- The compiler -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.compiler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- The core elements for the language -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.core.registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- The core types for the language -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.core.definitions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- The grammar definitions for the language -->
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.grammar</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- The remote processing engine
+        <dependency>
+            <groupId>de.fhg.isst.oe270.degree</groupId>
+            <artifactId>de.fhg.isst.oe270.degree.remote.processing</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>merge-results</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.common/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.compiler/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.core.definitions/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.core.registry/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.grammar/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                                <fileSet>
+                                    <directory>${project.parent.basedir}/de.fhg.isst.oe270.degree.remote.processing/target</directory>
+                                    <includes>
+                                        <include>jacoco.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                            <destFile>${project.build.directory}/jacoco-merge.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <dataFileExcludes>
+                                <dataFileExclude>**/target/jacoco-merge.exec</dataFileExclude>
+                            </dataFileExcludes>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

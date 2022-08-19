@@ -1,0 +1,3 @@
+Activity my.first.TestActivity
+needs [ my.policy.ReadFile("path/to/file.txt"), my.test.policy.ReadDatabase() ]
+provides [ my.policy.Anonymized ];

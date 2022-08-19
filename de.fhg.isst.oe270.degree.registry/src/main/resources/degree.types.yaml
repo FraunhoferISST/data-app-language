@@ -1,0 +1,118 @@
+---
+primitives:
+  Text: {}
+  Identifier:
+    validation: "return Regex.of('@',\"^(@w+@.)*(@w)+$\").matches(context);"
+    initialValue: "Default"
+  Type:
+    initialValue: "Text"
+    supertypes:
+      - "Identifier"
+  Json:
+    validation: "nukleus.core.Format.json.parse(context.value());"
+    initialValue: "{}"
+  nukleus.Identity:
+    validation: "if ( ! context.isValueEmpty()) nukleus.core.Identity.of(context.value());"
+  degree.ExecutionContainer:
+    validation: "return Enums.of(new String[]{\"noop\",\"java\",\"embedded\"}).contains(context);"
+    initialValue: "noop"
+  degree.ConstraintReference:
+    validation: "return (context.valueStartsWithOrEmpty(\"degree.Constraint@\"));"
+    supertypes:
+      - "nukleus.Identity"
+  degree.PolicyReference:
+    validation: "return (context.valueStartsWithOrEmpty(\"degree.Policy@\"));"
+    supertypes:
+      - "nukleus.Identity"
+  degree.ConstraintOrPolicyReference:
+    validation: "return (context.valueStartsWithOrEmpty(\"degree.Constraint@\")||(context.valueStartsWith(\"degree.Policy@\")));"
+    supertypes:
+      - "nukleus.Identity"
+  degree.ConstraintOrPolicyInstanceReference:
+    validation: "return (context.valueStartsWithOrEmpty(\"degree.ConstraintInstance@\")||(context.valueStartsWith(\"degree.PolicyInstance@\")));"
+    supertypes:
+      - "nukleus.Identity"
+  degree.ActivityReference:
+    validation: "return (context.valueStartsWithOrEmpty(\"degree.Activity@\"));"
+    supertypes:
+      - "nukleus.Identity"
+  degree.ActivityTag:
+    supertypes:
+      - "Identifier"
+    validation: "return Enums.of(new String[]{\"STATELESS\", \"STATEFUL\", \"RISK_MANAGEMENT\", \"MARKETING\"}).contains(context);"
+    initialValue: "STATELESS"
+  degree.ActivityInputTag:
+    supertypes:
+      - "Identifier"
+    validation: "return Enums.of(new String[]{\"READ\", \"MODIFY\", \"PERSIST\", \"AGGREGATE\", \"DISTRIBUTE\", \"ANONYMIZE\"}).contains(context);"
+    initialValue: "READ"
+composites:
+  degree.InstanceMap:
+    attributes:
+      key: Text
+      value: Json
+    cardinality: 0
+  degree.ParameterMappingsMap:
+    attributes:
+      key: Text
+      value: Text
+    cardinalities:
+      value: 0
+    cardinality: 0
+  degree.Parameter:
+    attributes:
+      name: Identifier
+      type: Type
+  degree.TaggedParameter:
+    supertypes:
+      - "degree.Parameter"
+    attributes:
+      tags?: degree.ActivityInputTag*
+  degree.Activity:
+    attributes:
+      name: Identifier
+      inputParameters?: degree.TaggedParameter*
+      outputParameters?: degree.Parameter*
+      codeBlock?: Text
+      executionContainer: degree.ExecutionContainer
+      tags?: degree.ActivityTag*
+  degree.MappedPolicyInstanceMap:
+    attributes:
+      key: Text
+      value: degree.ConstraintOrPolicyInstanceReference
+    cardinality: 0
+  degree.ActivityInstance:
+    attributes:
+      name: Identifier
+      definition: degree.ActivityReference
+      mappedElements: degree.InstanceMap
+      parameterMappings: degree.ParameterMappingsMap
+      policies: degree.MappedPolicyInstanceMap
+      tags: degree.ActivityTag
+  degree.Constraint:
+    attributes:
+      name: Identifier
+      executionContainer: degree.ExecutionContainer
+      attribute: degree.Parameter
+    cardinalities:
+      attribute: 0
+  degree.ConstraintInstance:
+    attributes:
+      name: Identifier
+      definition: degree.ConstraintReference
+      mappedElements: degree.InstanceMap
+  degree.DependencyMap:
+    attributes:
+      key: Text
+      value: degree.ConstraintOrPolicyReference
+    cardinality: 0
+  degree.Policy:
+    attributes:
+      name: Identifier
+      dependencies: degree.DependencyMap
+  degree.PolicyInstance:
+    attributes:
+      name: Identifier
+      definition: degree.PolicyReference
+      parameterMappings: degree.ParameterMappingsMap # TODO Es kann sein, dass das nicht mehr gebraucht wird
+      mappedElements: degree.MappedPolicyInstanceMap
